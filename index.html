@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>نظام متابعة تأسيس الوكالة – 90 يوماً</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f6f1ec;--sf:#fff;--tx:#2a1d16;--mt:#7a6a5f;--bd:#e0d3c8;--ac:#6b3f26;--ac2:#f0e5da;--ok:#2a8a4a;--wip:#b7791f;--bad:#c0392b;--badbg:#fdecea}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1511;--sf:#2a201a;--tx:#f1e7de;--mt:#b5a396;--bd:#4a3a30;--ac:#b97d49;--ac2:#3a2b21;--ok:#5fd488;--wip:#e8b252;--bad:#ff8a7a;--badbg:#3a1f1d}}
+:root[data-theme="dark"]{--bg:#1c1511;--sf:#2a201a;--tx:#f1e7de;--mt:#b5a396;--bd:#4a3a30;--ac:#b97d49;--ac2:#3a2b21;--ok:#5fd488;--wip:#e8b252;--bad:#ff8a7a;--badbg:#3a1f1d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"IBM Plex Sans Arabic",Tahoma,Arial,sans-serif;line-height:1.7;font-size:15px}
+header{padding:18px 16px 6px;max-width:1100px;margin:auto}
+h1{font-size:21px;margin:0 0 2px}h2{font-size:17px;margin:22px 0 10px}h3{font-size:15px;margin:0 0 6px}
+.sub{color:var(--mt);font-size:13px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);display:flex;overflow-x:auto;gap:4px;padding:6px 12px;max-width:1100px;margin:auto}
+nav button{flex:none;border:0;background:none;color:var(--mt);font:inherit;font-weight:500;padding:8px 12px;border-radius:8px;cursor:pointer}
+nav button.on{background:var(--ac);color:#fff}
+main{max-width:1100px;margin:auto;padding:8px 16px 40px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:12px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.big{font-size:30px;font-weight:700;color:var(--ac);line-height:1.2}
+.bar{height:10px;background:var(--ac2);border-radius:6px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--ac)}
+.wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--bd);vertical-align:middle}
+th{color:var(--mt);font-weight:600;font-size:13px;white-space:nowrap}
+input,select,button.b{font:inherit;color:var(--tx);background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:7px 10px}
+input[type=number]{width:96px}input[type=checkbox]{width:18px;height:18px;accent-color:var(--ac)}
+button.b{cursor:pointer;background:var(--ac);color:#fff;border-color:var(--ac)}
+button.g{background:var(--sf);color:var(--tx);border-color:var(--bd)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.st{border:0;border-radius:14px;padding:3px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;color:#fff}
+.s0{background:#7b8a8d}.s1{background:var(--wip)}.s2{background:var(--ok)}
+.al{background:var(--badbg);color:var(--bad);border:1px solid var(--bad);border-radius:8px;padding:8px 12px;margin:8px 0;font-weight:500}
+.nt{background:var(--ac2);border-radius:8px;padding:8px 12px;margin:6px 0;font-size:14px}
+.pill{display:inline-block;background:var(--ac2);color:var(--ac);border-radius:12px;padding:1px 10px;font-size:12px}
+ul{margin:6px 0;padding-inline-start:20px}
+.x{background:none;border:0;color:var(--bad);cursor:pointer;font-size:16px}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+</style>
+</head>
+<body>
+<header><h1>نظام متابعة تأسيس وتشغيل الوكالة</h1><div class="sub">خطة 90 يوماً · 5 شركاء · كل الأرقام والأسعار قابلة للتعديل</div><div class="sub" id="sy"></div></header>
+<nav id="nav"></nav>
+<main id="app"></main>
+<script>
+const R={d:"مسؤول التصميم والهوية",p:"مسؤول التصوير والإنتاج",c:"مسؤول إدارة الحسابات والمحتوى",t:"مسؤول التقنية والأتمتة والبيانات",s:"مسؤول المبيعات وتطوير الأعمال",a:"الشركاء (الإدارة والمالية)"};
+const TABS=["لوحة القيادة","الحوكمة واتفاق الشركاء","خارطة الطريق","الخدمات والباقات","المبيعات وسير العمل","المالية والميزانية"];
+const STN=["لم يبدأ","قيد التنفيذ","مكتمل"];
+const T=(n,ph,r,pr,k)=>({n,ph,r,pr,s:0,k});
+const DEF={
+tab:0,flt:"الكل",
+gov:[
+["الاتفاق التأسيسي","تحديد المؤسسين الخمسة وأدوار كل منهم"],["الاتفاق التأسيسي","تحديد حصة كل شريك من رأس المال"],["الاتفاق التأسيسي","تحديد ساعات العمل اليومية والتزامات كل شريك"],["الاتفاق التأسيسي","آلية حل الخلافات قبل تسجيل الملكية أو صرف رأس المال"],["الاتفاق التأسيسي","بند الخروج من الشراكة وانتقال الحصة"],
+["الصلاحيات","من يملك صلاحية توقيع العقود"],["الصلاحيات","سقف الصرف الذي لا يحتاج موافقة الجميع"],["الصلاحيات","من يملك صلاحية الحسابات البنكية والأدوات"],
+["توزيع الأرباح","لا توزيع قبل خصم التكاليف وتكوين الاحتياطي"],["توزيع الأرباح","نسبة الاحتياطي من صافي الربح"],["توزيع الأرباح","دورية التوزيع (ربع سنوية مثلاً)"]].map(x=>({g:x[0],n:x[1],d:false})),
+tasks:[
+T("اختيار الاسم التجاري وتحديد النشاط","المرحلة 1 (1-14)",R.a,"عالية","نشاط وهوية معتمدة"),
+T("تصميم الهوية البصرية","المرحلة 1 (1-14)",R.d,"عالية","هوية معتمدة"),
+T("إنشاء بريد رسمي وحسابات التواصل","المرحلة 1 (1-14)",R.t,"عالية","حسابات جاهزة"),
+T("إعداد ملف تعريفي للشركة (Company Profile)","المرحلة 1 (1-14)",R.d,"متوسطة","ملف PDF جاهز"),
+T("توقيع اتفاق الشركاء","المرحلة 1 (1-14)",R.a,"عالية","اتفاق موقع قبل أي صرف"),
+T("إنشاء مساحة العمل (Projects, Clients, Pipeline, Tasks, Finance, Content Calendar)","المرحلة 1 (1-14)",R.t,"عالية","6 قواعد بيانات تعمل"),
+T("تجهيز باقة إطلاق العلامة التجارية","المرحلة 2 (15-30)",R.d,"عالية","باقة مسعّرة"),
+T("تجهيز باقة المحتوى والنمو","المرحلة 2 (15-30)",R.c,"عالية","باقة مسعّرة"),
+T("تجهيز باقة الحلول الرقمية","المرحلة 2 (15-30)",R.t,"عالية","باقة مسعّرة"),
+T("تجهيز أدوات التصوير وبورتفوليو تجريبي","المرحلة 2 (15-30)",R.p,"متوسطة","3 نماذج أعمال"),
+T("تطبيق النظام الأسبوعي للمبيعات (30 بحث / 15 تواصل / 5 اجتماعات / 3 عروض)","المرحلة 3 (31-60)",R.s,"عالية","إغلاق 1-2 صفقة أسبوعياً"),
+T("تجهيز نموذج بصري تجريبي مختصر قبل كل اجتماع","المرحلة 3 (31-60)",R.d,"متوسطة","نموذج لكل اجتماع"),
+T("إغلاق أول 3 عملاء مدفوعين","المرحلة 3 (31-60)",R.s,"عالية","3 عملاء"),
+T("تحويل عملاء الخدمة الواحدة لباقات شهرية وعقود 3 أشهر","المرحلة 4 (61-90)",R.s,"عالية","2-3 عقود شهرية"),
+T("إضافة خدمات المواقع والأتمتة للعملاء الحاليين","المرحلة 4 (61-90)",R.t,"متوسطة","مشاريع إضافية"),
+T("جمع التقييمات وبناء Portfolio من 5 مشاريع","المرحلة 4 (61-90)",R.c,"متوسطة","5 نماذج أعمال"),
+T("تفعيل 3 قنوات تسويق والتركيز على الخدمة الأعلى ربحية","المرحلة 4 (61-90)",R.c,"متوسطة","3 قنوات نشطة"),
+T("مخرج 1: اسم الشركة وهويتها","الأسبوع الأول",R.d,"عالية","—"),
+T("مخرج 2: اتفاق مبدئي بين الشركاء","الأسبوع الأول",R.a,"عالية","—"),
+T("مخرج 3: قائمة الخدمات والأسعار","الأسبوع الأول",R.s,"عالية","—"),
+T("مخرج 4: بورتفوليو تجريبي من 3 مشاريع","الأسبوع الأول",R.p,"متوسطة","—"),
+T("مخرج 5: قائمة أول 30 عميلاً محتملاً","الأسبوع الأول",R.s,"عالية","—")],
+pk:[
+{n:"باقة إطلاق العلامة التجارية",it:"هوية 600 + قوالب سوشيال 250 + بروفايل 250",lo:900,hi:1000,price:950,cost:450},
+{n:"باقة صناعة المحتوى والنمو (شهرية)",it:"جلسة تصوير 350 + 8 منشورات 250 + إدارة حساب 700",lo:1000,hi:1300,price:1150,cost:600},
+{n:"باقة الحلول الرقمية",it:"موقع 900 + أتمتة ردود 400 + لوحة Power BI 600",lo:1500,hi:1800,price:1650,cost:800}],
+wk:{"البحث عن مشاريع محتملة":[30,0],"التواصل مع مشاريع":[15,0],"حجز اجتماعات":[5,0],"إرسال عروض أسعار":[3,0],"إغلاق صفقات":[2,0]},
+cl:[],
+bud:[{n:"الهوية والبورتفوليو",a:400},{n:"الموقع والبريد",a:300},{n:"أدوات التصوير",a:500},{n:"التسويق",a:500},{n:"التأسيس والتراخيص",a:1000},{n:"احتياطي نقدي",a:2300}],
+ex:[],rev:[],
+rk:[
+["تأخر العميل في السداد","عالية","عدم البدء قبل الدفعة المقدمة، وعدم تسليم ملفات المصدر قبل اكتمال الدفعات"],
+["تجاوز تكلفة التراخيص والأدوات للميزانية","متوسطة","استخدام النسخ المجانية أولاً، واعتماد الصرف من الاحتياطي بموافقة جماعية"],
+["العمل المجاني الزائد قبل الإغلاق","عالية","الاكتفاء بنموذج بصري مختصر لا مشروع كامل"],
+["ضعف الإغلاق في المبيعات","متوسطة","مراجعة أسبوعية لمعدلات التحويل وتعديل القطاع المستهدف"],
+["خلاف بين الشركاء","عالية","الرجوع لبند حل الخلافات في الاتفاق، وعدم خلط العلاقات الشخصية بالعمل"],
+["ازدحام التنفيذ وتأخر التسليم","متوسطة","مسؤول وموعد تسليم لكل مشروع، وتحديد سقف للمشاريع المتزامنة"]],
+rkd:{}
+};
+let S;try{S=JSON.parse(localStorage.getItem("agency90"))}catch(e){}
+if(!S||!S.tasks)S=JSON.parse(JSON.stringify(DEF));
+if(S.cap==null)S.cap=5000;if(S.tc==null)S.tc=5;
+const SK=["gov","tasks","pk","wk","cl","bud","ex","rev","rkd","cap","tc"];
+let DB=null,ready=false,owner=false,last={},sync="local",pend=false;
+function loc(){try{localStorage.setItem("agency90",JSON.stringify(S))}catch(e){}}
+function save(){loc();if(!DB)return;
+SK.forEach(k=>{const s=JSON.stringify(S[k]);if(s!==last[k]){last[k]=s;DB.doc("tracker/"+k).set({v:S[k]}).catch(()=>{sync="readonly";render()})}})}
+const SYT={local:"وضع محلي: البيانات على جهازك فقط",live:"متزامن مباشرة مع الشركاء",readonly:"للقراءة فقط: لا تملك صلاحية تعديل البيانات المشتركة",slow:"تعذر الوصول للبيانات المشتركة حالياً",error:"تعذر الاتصال بالبيانات المشتركة"};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const f=n=>Number(n).toLocaleString("ar-SA-u-nu-latn")+" ر.س";
+const pc=t=>t.s===2?100:t.s===1?50:0;
+const avg=a=>a.length?Math.round(a.reduce((x,t)=>x+pc(t),0)/a.length):0;
+const spent=n=>S.ex.filter(e=>e.b===n).reduce((x,e)=>x+e.v,0);
+const totSpent=()=>S.ex.reduce((x,e)=>x+e.v,0);
+const paid=()=>S.cl.filter(c=>c.st==="مدفوع").length;
+const prog=p=>`<div class="bar"><i style="width:${p}%"></i></div>`;
+const STG=["بحث","تواصل","اجتماع","عرض سعر","تفاوض","مدفوع"];
+
+function dash(){
+const p=avg(S.tasks),sp=totSpent(),rem=S.cap-sp,over=S.bud.filter(b=>spent(b.n)>b.a);
+const phs=[...new Set(S.tasks.map(t=>t.ph))];
+const gd=S.gov.filter(g=>g.d).length;
+return `<div class="grid">
+<div class="card"><div class="sub">إنجاز خطة الـ 90 يوماً</div><div class="big">${p}%</div>${prog(p)}</div>
+<div class="card"><div class="sub">العملاء المدفوعون من أصل <input type="number" min="1" data-a="tc" value="${S.tc}" style="width:64px"></div><div class="big">${paid()} / ${S.tc}</div>${prog(Math.min(100,Math.round(paid()/S.tc*100)))}</div>
+<div class="card"><div class="sub">المتبقي من الميزانية</div><div class="big">${f(rem)}</div>${prog(Math.max(0,Math.min(100,Math.round(rem/S.cap*100))))}</div>
+<div class="card"><div class="sub">بنود الحوكمة المكتملة</div><div class="big">${gd} / ${S.gov.length}</div>${prog(Math.round(gd/S.gov.length*100))}</div></div>
+${over.map(b=>`<div class="al">تنبيه: تجاوز بند «${esc(b.n)}» المخصص بمقدار ${f(spent(b.n)-b.a)}</div>`).join("")}
+<h2>إنجاز المراحل ومؤشرات نجاح كل مرحلة (KPIs)</h2>
+<div class="card wrap"><table><tr><th>المرحلة</th><th>الإنجاز</th><th>مؤشر النجاح</th></tr>
+${phs.map(ph=>{const a=S.tasks.filter(t=>t.ph===ph);return `<tr><td>${ph}</td><td style="min-width:140px">${avg(a)}%${prog(avg(a))}</td><td>${KPI[ph]||""}</td></tr>`}).join("")}</table></div>
+<h2>مؤشرات نهاية الـ 90 يوماً</h2>
+<div class="card"><ul><li>5 عملاء مدفوعين (حالياً ${paid()})</li><li>5-8 مشاريع منفذة</li><li>2-3 عقود شهرية</li><li>5 نماذج أعمال</li><li>3 قنوات تسويق نشطة</li></ul></div>`}
+const KPI={"المرحلة 1 (1-14)":"اتفاق موقع + هوية معتمدة + مساحة عمل جاهزة قبل اليوم 14","المرحلة 2 (15-30)":"3 باقات مسعّرة + بورتفوليو تجريبي من 3 مشاريع","المرحلة 3 (31-60)":"30 بحث و15 تواصل و5 اجتماعات و3 عروض أسبوعياً، و3 عملاء مدفوعين","المرحلة 4 (61-90)":"5 عملاء، 2-3 عقود شهرية، 5 نماذج أعمال","الأسبوع الأول":"5 مخرجات مكتملة بنهاية الأسبوع"};
+
+function gov(){
+const gs=[...new Set(S.gov.map(g=>g.g))];
+return gs.map(g=>`<div class="card"><h3>${g}</h3>${S.gov.map((x,i)=>x.g===g?`<label style="display:flex;gap:10px;align-items:center;padding:4px 0"><input type="checkbox" data-a="gov" data-i="${i}" ${x.d?"checked":""}>${x.n}</label>`:"").join("")}</div>`).join("")+
+`<h2>سجل المخاطر والحلول البديلة</h2><div class="card wrap"><table><tr><th>الخطر</th><th>الأثر</th><th>الحل البديل</th><th>تمت المعالجة</th></tr>${S.rk.map((r,i)=>`<tr><td>${r[0]}</td><td><span class="pill">${r[1]}</span></td><td>${r[2]}</td><td><input type="checkbox" data-a="rk" data-i="${i}" ${S.rkd[i]?"checked":""}></td></tr>`).join("")}</table></div>
+<h2>قالب الاجتماع الأسبوعي (30 دقيقة)</h2>
+<div class="card"><ul><li><b>5 د:</b> أرقام الأسبوع (عملاء، إيرادات، المتبقي من الميزانية)</li><li><b>5 د:</b> تقرير كل مسؤول في دقيقة: ما أُنجز</li><li><b>10 د:</b> مسار المبيعات: العروض المعلقة وما يمنع الإغلاق</li><li><b>5 د:</b> المخاطر والعقبات والقرارات المطلوبة</li><li><b>5 د:</b> مهام الأسبوع القادم (مسؤول + موعد لكل مهمة)</li></ul></div>
+<h2>تنبيهات الامتثال النظامي في السعودية</h2>
+<div class="card"><div class="nt">سجل تجاري أو وثيقة العمل الحر: حدّد الشكل القانوني قبل استلام أول دفعة، وراجع الجهة الرسمية المختصة.</div><div class="nt">العقود: وثّق كل عميل بعقد مكتوب يحدد نطاق العمل والدفعات والتسليم قبل البدء.</div><div class="nt">الفوترة الإلكترونية: إصدار فواتير متوافقة مع متطلبات هيئة الزكاة والضريبة والجمارك، وتحقق من حدّ التسجيل في ضريبة القيمة المضافة.</div><div class="nt">قبل الاعتماد النهائي استشر محاسباً أو مستشاراً قانونياً مرخصاً، فالمتطلبات قد تتغير.</div></div>`}
+
+function road(){
+const ds=["الكل",...Object.values(R)];
+const L=S.tasks.map((t,i)=>({t,i})).filter(x=>S.flt==="الكل"||x.t.r===S.flt);
+const phs=[...new Set(S.tasks.map(t=>t.ph))];
+return `<div class="row"><select data-a="flt">${ds.map(d=>`<option ${d===S.flt?"selected":""}>${d}</option>`).join("")}</select><span class="sub">اضغط على الحالة لتغييرها</span></div>`+
+phs.map(ph=>{const rows=L.filter(x=>x.t.ph===ph);if(!rows.length)return"";return `<h2>${ph} · ${avg(S.tasks.filter(t=>t.ph===ph))}%</h2><div class="card wrap"><table><tr><th>المهمة</th><th>المسؤول</th><th>الأولوية</th><th>الحالة</th><th>الإنجاز</th></tr>${rows.map(x=>`<tr><td>${x.t.n}</td><td>${x.t.r}</td><td>${x.t.pr}</td><td><button class="st s${x.t.s}" data-a="task" data-i="${x.i}">${STN[x.t.s]}</button></td><td>${pc(x.t)}%</td></tr>`).join("")}</table></div>`}).join("")}
+
+function pack(){
+return `<div class="sub">الأسعار التجريبية والتكاليف قابلة للتعديل. التكاليف تقديرية افتراضية، عدّلها بحسب واقعكم.</div>`+S.pk.map((k,i)=>{const pr=k.price-k.cost,m=Math.round(pr/k.price*100);
+return `<div class="card"><h3>${k.n}</h3><input style="width:100%" data-a="pkit" data-i="${i}" value="${esc(k.it)}" aria-label="مكونات الباقة وأسعارها"><div class="row"><label>أدنى سعر مستهدف <input type="number" data-a="pk" data-i="${i}" data-k="lo" value="${k.lo}"></label><label>أعلى سعر مستهدف <input type="number" data-a="pk" data-i="${i}" data-k="hi" value="${k.hi}"></label></div><div class="row">
+<label>السعر <input type="number" data-a="pk" data-i="${i}" data-k="price" value="${k.price}"></label>
+<label>التكلفة التقديرية <input type="number" data-a="pk" data-i="${i}" data-k="cost" value="${k.cost}"></label></div>
+<b>صافي الربح المتوقع: ${f(pr)} · الهامش ${m}%</b>${k.price<k.lo||k.price>k.hi?`<div class="al">السعر خارج النطاق المخطط له</div>`:""}</div>`}).join("")}
+
+const WF=[["جلب العميل","مسؤول المبيعات وتطوير الأعمال"],["فهم الاحتياج وإعداد العرض","مسؤول المبيعات + القسم المختص"],["اعتماد العقد والدفعة المقدمة","الشركاء (الإدارة والمالية)"],["توزيع المشروع","مسؤول العمليات المعيّن من الشركاء"],["التنفيذ والمراجعة","القسم المختص"],["التسليم والتحصيل والتقييم","مسؤول المبيعات + مسؤول المشروع"]];
+function sales(){
+return `<h2>أهداف المبيعات الأسبوعية</h2><div class="card wrap"><table><tr><th>المؤشر</th><th>الهدف</th><th>الفعلي هذا الأسبوع</th><th>التحقق</th></tr>${Object.entries(S.wk).map(([k,v])=>`<tr><td>${k}</td><td><input type="number" min="1" data-a="wkt" data-k="${k}" value="${v[0]}"></td><td><input type="number" min="0" data-a="wk" data-k="${k}" value="${v[1]}"></td><td>${Math.min(100,Math.round(v[1]/v[0]*100))}%</td></tr>`).join("")}</table><div class="row"><button class="b g" data-a="wkreset">بدء أسبوع جديد</button></div></div>
+<h2>العملاء المحتملون (${S.cl.length}) · مدفوعون ${paid()}</h2>
+<div class="card"><div class="row"><input id="cn" placeholder="اسم المشروع / العميل"><select id="cs"><option>المطاعم والكافيهات</option><option>المتاجر الإلكترونية</option><option>المشاريع المنزلية</option><option>العيادات والمراكز</option><option>العلامات الناشئة</option></select><select id="cp">${S.pk.map(k=>`<option>${k.n}</option>`).join("")}</select><button class="b" data-a="addcl">إضافة</button></div>
+${S.cl.length?`<div class="wrap"><table><tr><th>العميل</th><th>القطاع</th><th>الباقة</th><th>المرحلة</th><th></th></tr>${S.cl.map((c,i)=>`<tr><td>${esc(c.n)}</td><td>${c.s}</td><td>${c.p}</td><td><select data-a="cst" data-i="${i}">${STG.map(g=>`<option ${g===c.st?"selected":""}>${g}</option>`).join("")}</select></td><td><button class="x" data-a="delcl" data-i="${i}">✕</button></td></tr>`).join("")}</table></div>`:`<div class="sub">لا يوجد عملاء بعد. أضف أول عميل محتمل من قائمة الـ 30.</div>`}</div>
+<h2>مراحل تنفيذ مشروع العميل</h2><div class="card"><table>${WF.map((w,i)=>`<tr><td><b>${i+1}. ${w[0]}</b></td><td>${w[1]}</td></tr>`).join("")}</table></div>
+<h2>القواعد التشغيلية</h2><div class="card"><div class="nt">لا يبدأ أي مشروع قبل اعتماد نطاق العمل والدفعة المتفق عليها.</div><div class="nt">لا تُسلَّم ملفات المصدر أو الحسابات قبل استكمال الدفعات.</div><div class="nt">لكل مشروع ملف مستقل وموعد تسليم ومسؤول.</div><div class="nt">لا صرف دون تسجيل، ولا توزيع أرباح قبل خصم التكاليف وتكوين الاحتياطي.</div><div class="nt">تجنّبوا: استئجار مكتب، التوظيف المبكر، شراء معدات غالية متوفرة لدى الشركاء، كثرة الخدمات، وخلط العلاقات الشخصية بالعمل.</div></div>`}
+
+function fin(){
+const alloc=S.bud.reduce((x,b)=>x+b.a,0),tot=S.cap,sp=totSpent(),rv=S.rev.reduce((x,r)=>x+r.v,0);
+return `<div class="grid"><div class="card"><div class="sub">رأس المال (قابل للتعديل)</div><input type="number" min="1" data-a="cap" value="${S.cap}" style="width:100%;font-size:22px;font-weight:700"></div><div class="card"><div class="sub">المصروف</div><div class="big">${f(sp)}</div></div><div class="card"><div class="sub">المتبقي</div><div class="big">${f(tot-sp)}</div></div><div class="card"><div class="sub">إجمالي الإيرادات</div><div class="big">${f(rv)}</div></div></div>
+<h2>توزيع الميزانية</h2><div class="card wrap"><table><tr><th>البند</th><th>المخصص</th><th>المصروف الفعلي</th><th>المتبقي</th><th>الحالة</th><th></th></tr>${S.bud.map((b,bi)=>{const s=spent(b.n);return `<tr><td><input data-a="bn" data-i="${bi}" value="${esc(b.n)}" style="width:150px"></td><td><input type="number" min="0" data-a="ba" data-i="${bi}" value="${b.a}"></td><td>${f(s)}</td><td>${f(b.a-s)}</td><td>${s>b.a?`<span style="color:var(--bad);font-weight:700">متجاوز</span>`:"ضمن الحد"}</td><td><button class="x" data-a="delbud" data-i="${bi}" title="حذف البند (لا يُحذف إن كانت عليه مصروفات)">✕</button></td></tr>`}).join("")}<tr><td><b>مجموع المخصصات</b></td><td><b>${f(alloc)}</b></td><td colspan="4">${alloc>tot?`<span style="color:var(--bad);font-weight:700">المخصصات تتجاوز رأس المال بمقدار ${f(alloc-tot)}</span>`:`غير موزّع: ${f(tot-alloc)}`}</td></tr></table></div><div class="row"><input id="bnn" placeholder="اسم بند جديد"><input id="bna" type="number" min="0" placeholder="المخصص"><button class="b" data-a="addbud">إضافة بند</button></div>
+${S.bud.filter(b=>spent(b.n)>b.a).map(b=>`<div class="al">تجاوز بند «${esc(b.n)}» المخصص. اطلبوا موافقة الشركاء قبل أي صرف إضافي.</div>`).join("")}
+<h2>تسجيل مصروف</h2><div class="card"><div class="row"><select id="eb">${S.bud.map(b=>`<option>${b.n}</option>`).join("")}</select><input id="ed" placeholder="الوصف"><input id="ev" type="number" min="0" placeholder="المبلغ"><button class="b" data-a="addex">تسجيل</button></div>
+${S.ex.length?`<div class="wrap"><table><tr><th>البند</th><th>الوصف</th><th>المبلغ</th><th></th></tr>${S.ex.map((e,i)=>`<tr><td>${e.b}</td><td>${esc(e.d)}</td><td>${f(e.v)}</td><td><button class="x" data-a="delex" data-i="${i}">✕</button></td></tr>`).join("")}</table></div>`:`<div class="sub">لا مصروفات مسجلة. لا صرف دون تسجيل.</div>`}</div>
+<h2>سجل الإيرادات</h2><div class="card"><div class="row"><input id="rc" placeholder="العميل"><input id="rs" placeholder="الخدمة / الباقة"><input id="rv" type="number" min="0" placeholder="المبلغ"><button class="b" data-a="addrv">إضافة</button></div>
+${S.rev.length?`<div class="wrap"><table><tr><th>العميل</th><th>الخدمة</th><th>المبلغ</th><th></th></tr>${S.rev.map((r,i)=>`<tr><td>${esc(r.c)}</td><td>${esc(r.s)}</td><td>${f(r.v)}</td><td><button class="x" data-a="delrv" data-i="${i}">✕</button></td></tr>`).join("")}</table></div>`:`<div class="sub">لا إيرادات مسجلة بعد.</div>`}</div>`}
+
+function render(){
+$("#nav").innerHTML=TABS.map((t,i)=>`<button class="${i===S.tab?"on":""}" data-a="tab" data-i="${i}">${t}</button>`).join("");
+$("#app").innerHTML=[dash,gov,road,pack,sales,fin][S.tab]();$("#sy").textContent=SYT[sync]||"";
+}
+document.addEventListener("click",e=>{
+const el=e.target.closest("[data-a]");if(!el||el.tagName==="INPUT"||el.tagName==="SELECT")return;
+const a=el.dataset.a,i=+el.dataset.i,v=id=>$("#"+id).value.trim();
+if(a==="tab"){S.tab=i;window.scrollTo(0,0)}
+else if(a==="task")S.tasks[i].s=(S.tasks[i].s+1)%3;
+else if(a==="wkreset")Object.values(S.wk).forEach(x=>x[1]=0);
+else if(a==="addcl"){if(!v("cn"))return;S.cl.push({n:v("cn"),s:v("cs"),p:v("cp"),st:"بحث"})}
+else if(a==="delcl")S.cl.splice(i,1);
+else if(a==="addex"){const n=+v("ev");if(!n||n<=0)return;S.ex.push({b:v("eb"),d:v("ed")||"—",v:n})}
+else if(a==="delex")S.ex.splice(i,1);
+else if(a==="addbud"){if(!v("bnn"))return;S.bud.push({n:v("bnn"),a:Math.max(0,+$("#bna").value||0)})}
+else if(a==="delbud"){if(S.ex.some(e=>e.b===S.bud[i].n))return;S.bud.splice(i,1)}
+else if(a==="addrv"){const n=+v("rv");if(!n||n<=0||!v("rc"))return;S.rev.push({c:v("rc"),s:v("rs")||"—",v:n})}
+else if(a==="delrv")S.rev.splice(i,1);
+save();render()});
+document.addEventListener("change",e=>{
+const el=e.target,a=el.dataset.a,i=+el.dataset.i;if(!a)return;
+if(a==="gov")S.gov[i].d=el.checked;
+else if(a==="rk")S.rkd[i]=el.checked;
+else if(a==="flt")S.flt=el.value;
+else if(a==="pk")S.pk[i][el.dataset.k]=Math.max(0,+el.value||0);
+else if(a==="wk")S.wk[el.dataset.k][1]=Math.max(0,+el.value||0);
+else if(a==="cst")S.cl[i].st=el.value;
+else if(a==="cap")S.cap=Math.max(1,+el.value||5000);
+else if(a==="tc")S.tc=Math.max(1,+el.value||5);
+else if(a==="ba")S.bud[i].a=Math.max(0,+el.value||0);
+else if(a==="bn"){const o=S.bud[i].n,n=el.value.trim()||o;S.ex.forEach(x=>{if(x.b===o)x.b=n});S.bud[i].n=n}
+else if(a==="pkit")S.pk[i].it=el.value;
+else if(a==="wkt")S.wk[el.dataset.k][0]=Math.max(1,+el.value||1);
+save();render()});
+render();
+document.addEventListener("focusout",()=>{if(pend){pend=false;setTimeout(render,0)}});
+(async()=>{try{
+if(!window.claude)return;
+const c=await claude.use("db");if(!c)return;
+const u=await claude.use("user");owner=!!(u&&u.isOwner());
+const tm=setTimeout(()=>{if(!ready){sync="slow";render()}},10000);
+c.collection("tracker").onSnapshot(snap=>{
+clearTimeout(tm);
+const fc=!!(snap.metadata&&snap.metadata.fromCache);
+if(snap.empty&&fc)return;
+if(snap.empty&&owner&&!ready){ready=true;DB=c;sync="live";SK.forEach(k=>{last[k]=""});save();render();return}
+let ch=false;
+snap.docs.forEach(d=>{const x=d.data();if(!x||x.v===undefined)return;const s=JSON.stringify(x.v);if(s!==last[d.id]&&SK.includes(d.id)){last[d.id]=s;S[d.id]=x.v;ch=true}});
+if(!ready){ready=true;SK.forEach(k=>{if(last[k]===undefined)last[k]=JSON.stringify(S[k])});DB=c}
+sync="live";loc();
+const a=document.activeElement;
+if(a&&/INPUT|SELECT/.test(a.tagName)&&ch)pend=true;else render();
+},()=>{sync="error";render()});
+}catch(e){}})();
+</script>
+</body>
+</html>
